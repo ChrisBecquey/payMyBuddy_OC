@@ -42,7 +42,6 @@ public class WebController {
         List<Transaction> transactions = transactionService.getTransactionsByUser(user);
         model.addAttribute("transactions", transactions);
         return "transaction";
-
     }
 
 

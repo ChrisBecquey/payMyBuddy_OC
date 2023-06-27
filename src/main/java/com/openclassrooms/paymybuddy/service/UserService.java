@@ -3,6 +3,9 @@ package com.openclassrooms.paymybuddy.service;
 import com.openclassrooms.paymybuddy.model.User;
 import com.openclassrooms.paymybuddy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,5 +30,20 @@ public class UserService {
 
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
+    }
+
+    public User getLoggedUser() {
+        return userRepository.findUserByEmail(getEmailOfConnectedUser()).get();
+    }
+    private String getEmailOfConnectedUser() {
+        String email = null;
+        SecurityContext context = SecurityContextHolder.getContext();
+        Object principal = context.getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            email = ((UserDetails) principal).getUsername();
+        } else {
+            email = principal.toString();
+        }
+        return email;
     }
 }

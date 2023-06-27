@@ -42,6 +42,5 @@ class TransactionServiceTest {
 
         verify(transactionRepository, times(1)).findByConnectionId(user);
         assertEquals(transactions.size(), result.size());
-
     }
 }

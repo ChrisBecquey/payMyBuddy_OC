@@ -13,11 +13,15 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    //méthode pour Lister les transaction effectué
     public List<Transaction> getTransactionsByUser(User user) {
         return transactionRepository.findByConnectionId(user);
     }
 
     //Méthode pour sélectionner une personne + définir le montant a envoyé
+
+    // récupérer l'utilisateur connecté (FromUser)
+    // récuperé l'utilisateur à qui ont envoie
+    // switch case
+
 
 }

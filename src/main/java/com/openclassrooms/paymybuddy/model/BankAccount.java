@@ -11,13 +11,13 @@ public class BankAccount {
     private String description;
     private String type;
     private Double amount;
-    private Integer userId;
+    private User userId;
 
 
     public BankAccount() {
     }
 
-    public BankAccount(String iban, String description, String type, Double amount, Integer userId) {
+    public BankAccount(String iban, String description, String type, Double amount, User userId) {
         this.iban = iban;
         this.description = description;
         this.type = type;
@@ -57,11 +57,11 @@ public class BankAccount {
         this.amount = amount;
     }
 
-    public Integer getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 
