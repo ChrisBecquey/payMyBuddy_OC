@@ -8,9 +8,11 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String iban;
+
     private String description;
     private String type;
     private Double amount;
+    @ManyToOne
     private User userId;
 
 
@@ -63,6 +65,14 @@ public class BankAccount {
 
     public void setUserId(User userId) {
         this.userId = userId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 }
