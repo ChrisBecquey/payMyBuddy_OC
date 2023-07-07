@@ -19,7 +19,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-        // connection avec un autre utilisateur
+    // connection avec un autre utilisateur
     public Iterable<User> getUsers() {
         return userRepository.findAll();
     }
@@ -35,6 +35,7 @@ public class UserService {
     public User getLoggedUser() {
         return userRepository.findUserByEmail(getEmailOfConnectedUser()).get();
     }
+
     private String getEmailOfConnectedUser() {
         String email = null;
         SecurityContext context = SecurityContextHolder.getContext();
@@ -45,5 +46,10 @@ public class UserService {
             email = principal.toString();
         }
         return email;
+    }
+
+    //TODO tests
+    public void addFriend(User connectedUser, User friend) {
+        connectedUser.addFriend(friend);
     }
 }

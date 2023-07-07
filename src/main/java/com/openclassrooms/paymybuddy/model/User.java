@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class User implements UserDetails {
@@ -18,6 +19,8 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private Double balance;
+    @OneToMany
+    private List<User> friends;
 
     public User() {
     }
@@ -74,6 +77,13 @@ public class User implements UserDetails {
         this.balance = balance;
     }
 
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -109,5 +119,20 @@ public class User implements UserDetails {
         return true;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(balance, user.balance) && Objects.equals(friends, user.friends);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, email, password, balance, friends);
+    }
+
+    public void addFriend(User friend) {
+        if(!this.friends.contains(friend))
+            this.friends.add(friend);
+    }
 }
