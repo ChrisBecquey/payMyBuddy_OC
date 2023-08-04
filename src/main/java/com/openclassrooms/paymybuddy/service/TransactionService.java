@@ -5,6 +5,7 @@ import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.model.User;
 import com.openclassrooms.paymybuddy.repository.TransactionRepository;
 import com.openclassrooms.paymybuddy.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@Transactional
 public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
@@ -22,14 +24,11 @@ public class TransactionService {
         return transactionRepository.findByConnectionId(user);
     }
 
-    //Méthode pour sélectionner une personne + définir le montant a envoyé
-
     public void makeTransaction(User connectedUser, User friend, Double amount, String description) throws LowBalanceException {
         Transaction transaction = new Transaction();
         Double senderBalance = connectedUser.getBalance();
         Double receiverBalance = friend.getBalance();
 
-        // appliquer la transactions (règles entre si balance >= amount)
         if(senderBalance < amount){
             throw new LowBalanceException("Sorry your solde " + senderBalance + " is not enought, you can't make this transaction !");
         }
@@ -43,13 +42,9 @@ public class TransactionService {
         receiverBalance = receiverBalance + amount;
         friend.setBalance(receiverBalance);
 
-        // save les changement sur les 2 utilisateurs
-
         userRepository.save(connectedUser);
         userRepository.save(friend);
 
-
-        //Save la transaction pour pouvoir la retrouver plus tard
         transaction.setDescription(description);
         transaction.setTransactionDate(LocalDate.now());
         transaction.setAmount(amount);

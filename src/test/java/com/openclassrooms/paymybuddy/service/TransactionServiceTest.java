@@ -9,12 +9,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -60,8 +62,8 @@ class TransactionServiceTest {
         try {
             transactionService.makeTransaction(user1, user2, 50.0, "Payment");
 
-            assertEquals(49.75, user1.getBalance(), 0.001);
-            assertEquals(135.0, user2.getBalance(), 0.001);
+            assertEquals(49.75, user1.getBalance());
+            assertEquals(135.0, user2.getBalance());
 
         } catch (LowBalanceException e) {
             Assertions.fail("Unexpected LowBalanceException");
@@ -71,7 +73,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldntMakeTheTransaction_whenBalanceIsLowerThanAmount() {
+    void shouldNotMakeTheTransaction_whenBalanceIsLowerThanAmount() {
         User user1 = new User();
         User user2 = new User();
 
@@ -86,23 +88,18 @@ class TransactionServiceTest {
         }
     }
 
-//    @Test
-//    void shouldSaveTransaction() throws LowBalanceException {
-//        User user1 = new User();
-//        User user2 = new User();
-//
-//        user1.setBalance(100.0);
-//        user2.setBalance(50.0);
-//
-//        transactionService.makeTransaction(user1, user2, 50.0, "Payment");
-//
-//        List<Transaction> transactions = transactionRepository.findByConnectionId(user1);
-//
-//        Transaction transaction = transactions.get(0);
-//
-//        assertEquals("Payment", transaction.getDescription());
-//        assertEquals(50.0, transaction.getAmount());
-//        assertEquals(user1, transaction.getConnectionId());
-//        assertEquals(user2, transaction.getTo_user_id());
-//    }
+    @Test
+    void shouldSaveTransaction() throws LowBalanceException {
+        User user1 = new User();
+        User user2 = new User();
+
+        user1.setBalance(100.0);
+        user2.setBalance(50.0);
+
+        transactionService.makeTransaction(user1, user2, 50.0, "Payment");
+
+        verify(userRepository, Mockito.times(1)).save(user1);
+        verify(userRepository, Mockito.times(1)).save(user2);
+        verify(transactionRepository, Mockito.times(1)).save(any());
+    }
 }

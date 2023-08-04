@@ -6,12 +6,14 @@ import com.openclassrooms.paymybuddy.model.BankAccount;
 import com.openclassrooms.paymybuddy.model.User;
 import com.openclassrooms.paymybuddy.repository.BankAccountRepository;
 import com.openclassrooms.paymybuddy.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
 @Service
+@Transactional
 public class BankAccountService {
     @Autowired
     private UserRepository userRepository;
@@ -32,19 +34,15 @@ public class BankAccountService {
 
         switch (transactionType) {
             case CREDIT: {
-                // effectuer le nouveau calcul de la balance
                 balance = balance + amount;
                 userSender.setBalance(balance);
                 break;
             }
             case DEBIT: {
-                // Vérifier que le montant de la transaction est <= à la balance sur le compte de l'utilisateur
-
                 if (balance < amount) {
                     throw new LowBalanceException("Sorry your solde " + balance + "is not hight enought to make this transaction");
                 }
                 totalAmount = amount + tax;
-                // effectuer le nouveau calcul de la balance
                 balance = balance - totalAmount;
                 userSender.setBalance(balance);
                 break;
