@@ -26,7 +26,7 @@ public class SpringSecurityConfig {
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .permitAll()
-                .logoutSuccessUrl("/index.html")
+                .logoutSuccessUrl("/templateApp.html")
         ;
         return http.build();
     }
