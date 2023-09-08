@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,8 +32,8 @@ public class WebController {
         try {
             List<Transaction> transactions = transactionService.getTransactionsByUser(user);
             model.addAttribute("listTransactions", transactions);
-        }catch (NoSuchElementException noSuchElementException) {
-    log.error(noSuchElementException.getMessage(), noSuchElementException);
+        } catch (NoSuchElementException noSuchElementException) {
+            log.error(noSuchElementException.getMessage(), noSuchElementException);
         }
         return "transaction";
     }
@@ -45,9 +47,48 @@ public class WebController {
         return "transaction";
     }
 
+    @PostMapping("/addUser")
+    public String addUser(@ModelAttribute User user, Model model) {
+        model.addAttribute("user", user);
+        userService.saveUser(user);
+        return "signUp";
+    }
+
+    @GetMapping("/addFriend")
+    public String getAddFriend(Model model) {
+        model.addAttribute("user", new User());
+        return "contactForm";
+    }
+
+    @PostMapping("/addFriend")
+    public String postAddFriend(@ModelAttribute User user,
+                                Principal principal) {
+
+        String friendEmail = user.getEmail();
+        User friend = userService.getUserByEmail(friendEmail).orElse(null);
+        User connectedUser = userService.getUserByEmail(principal.getName()).get();
+
+        if (friend != null) {
+            connectedUser.addFriend(friend);
+            userService.saveUser(connectedUser);
+        }
+        return "templateApp.html";
+    }
+
     @GetMapping("/templateApp.html")
     public String template() {
         return "templateApp.html";
+    }
+
+    @GetMapping("/contactForm")
+    public String getContactForm(Model model) {
+        return "contactForm.html";
+    }
+
+    @GetMapping("/signUp.html")
+    public String signUp(Model model) {
+        model.addAttribute("user", new User());
+        return "signUp.html";
     }
 
     // Login form
@@ -61,5 +102,16 @@ public class WebController {
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
         return "login.html";
+    }
+
+    @GetMapping("/contacts")
+    public String showContacts(Model model, Principal principal) {
+        String username = principal.getName();
+        User connectedUser = userService.getUserByEmail(username).get();
+
+        List<User> friends = userService.getAllFriend(connectedUser);
+
+        model.addAttribute("friends", friends);
+        return "contacts";
     }
 }

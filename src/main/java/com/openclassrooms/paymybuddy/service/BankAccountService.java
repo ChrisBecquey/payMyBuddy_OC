@@ -48,7 +48,7 @@ public class BankAccountService {
                 break;
             }
             default:
-                throw new IllegalArgumentException("Unknow TransactionType");
+                throw new IllegalArgumentException("Unknown TransactionType");
         }
 
         bankTransaction.setAmount(amount);

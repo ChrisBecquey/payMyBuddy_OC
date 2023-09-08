@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <script src="/webjars/jquery/jquery.min.js"></script>
   <meta charset="UTF-8">
-  <title>Transactions</title>
-  <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
-  <script src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+  <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
+<div th:insert="navbar.html :: navbar"></div>
+
 <h1>Transaction List</h1>
 
 
@@ -16,17 +17,17 @@
   <div class="card">
     <div class="card-header">Send Money
       <td>
-        <a class="btn btn-success" th:href="@{/user/connection}">Add Connection</a>
+        <a class="btn btn-success">Add Connection</a>
       </td>
     </div>
 
     <div class="mt-2" >
       <td> Options </td>
       <td>
-        <a class="btn btn-success" th:href="@{/transaction}">Add Transaction</a>
+        <a class="btn btn-success">Add Transaction</a>
       </td>
       <td>
-        <a class="btn btn-success" th:href="@{/bankTransaction}"> Add Bank transaction</a>
+        <a class="btn btn-success"> Add Bank transaction</a>
       </td>
       </td>
     </div>
@@ -55,5 +56,6 @@
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,6 +35,7 @@ public class UserService {
         return userRepository.findUserByEmail(email);
     }
 
+
     public User getLoggedUser() {
         return userRepository.findUserByEmail(getEmailOfConnectedUser()).get();
     }
@@ -50,8 +52,11 @@ public class UserService {
         return email;
     }
 
-    //TODO tests
     public void addFriend(User connectedUser, User friend) {
         connectedUser.addFriend(friend);
+    }
+
+    public List<User> getAllFriend(User connectedUser) {
+        return connectedUser.getFriends();
     }
 }
