@@ -1,8 +1,8 @@
 package com.openclassrooms.paymybuddy.controller;
 
+import com.openclassrooms.paymybuddy.exception.LowBalanceException;
 import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.model.User;
-import com.openclassrooms.paymybuddy.repository.TransactionRepository;
 import com.openclassrooms.paymybuddy.service.TransactionService;
 import com.openclassrooms.paymybuddy.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +44,9 @@ public class WebController {
         User user = userService.getUserByEmail(email).get();
         List<Transaction> transactions = transactionService.getTransactionsByUser(user);
         model.addAttribute("transactions", transactions);
+
+        List<User> friends = userService.getAllFriends(user);
+        model.addAttribute("friends", friends);
         return "transaction";
     }
 
@@ -73,6 +76,28 @@ public class WebController {
             userService.saveUser(connectedUser);
         }
         return "templateApp.html";
+    }
+
+    @GetMapping("/addTransaction")
+    public String getAddTransaction(Model model, Principal principal) {
+        String email = principal.getName();
+        User user = userService.getUserByEmail(email).get();
+        List<Transaction> transactions = transactionService.getTransactionsByUser(user);
+        model.addAttribute("transaction", new Transaction());
+
+        List<User> friends = userService.getAllFriends(user);
+        model.addAttribute("friends", friends);
+
+        model.addAttribute("user", new User());
+        return "transaction";
+    }
+
+    @PostMapping("/addTransaction")
+    public String addTransaction(@ModelAttribute Transaction transaction, User user, Principal principal) throws LowBalanceException {
+        User friend = userService.getUserByEmail(user.getEmail()).orElse(null);
+        User connectedUser = userService.getUserByEmail(principal.getName()).get();
+        transactionService.makeTransaction(connectedUser, friend, transaction.getAmount(), transaction.getDescription());
+        return "transaction";
     }
 
     @GetMapping("/templateApp.html")
@@ -109,7 +134,7 @@ public class WebController {
         String username = principal.getName();
         User connectedUser = userService.getUserByEmail(username).get();
 
-        List<User> friends = userService.getAllFriend(connectedUser);
+        List<User> friends = userService.getAllFriends(connectedUser);
 
         model.addAttribute("friends", friends);
         return "contacts";

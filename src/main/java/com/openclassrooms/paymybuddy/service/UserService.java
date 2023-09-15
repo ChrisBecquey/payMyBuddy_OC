@@ -56,7 +56,7 @@ public class UserService {
         connectedUser.addFriend(friend);
     }
 
-    public List<User> getAllFriend(User connectedUser) {
+    public List<User> getAllFriends(User connectedUser) {
         return connectedUser.getFriends();
     }
 }
