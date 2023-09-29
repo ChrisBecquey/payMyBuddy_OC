@@ -23,9 +23,9 @@
         </div>
         <!--  dropdown de la liste des friend du connectUser -->
         <div>
-            <form class="mx-1 mx-md-4" action="#" th:action="@{/addTransaction}" method="post">
+            <form class="mx-1 mx-md-4" action="#" th:action="@{/addTransaction}" th:object="${transactionDTO}" method="post">
                 <div>
-                    <select class="form-select" id="friendDropdown" aria-label="Select a connection" th:value="${user.email}">
+                    <select class="form-select" id="friendDropdown" aria-label="Select a connection" th:field="*{emailReceiver}">
                         <option th:each="friend : ${friends}" th:text="${friend.firstName + ' ' +friend.lastName}"
                                th:value="${friend.email}">
                         </option>
@@ -34,12 +34,12 @@
                 <!--  ajout du montant de la transaction -->
                 <div>
                     <label for="amount"> Montant </label>
-                    <input type="number" id="amount" name="amount" class="form-control" th:value="${transaction.amount}"
+                    <input type="number" id="amount" name="amount" class="form-control" th:field="*{amount}"
                            required></input>
                 </div>
                 <div>
                     <label for="description"> Description </label>
-                    <input type="text" id="description" class="form-control" name="description" th:value="${transaction.description}"
+                    <input type="text" id="description" class="form-control" name="description" th:field="*{description}"
                            required> </input>
                 </div>
                 <!--  bouton pour triger la méthode de transaction du service -->
@@ -61,8 +61,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="transaction : ${listTransactions}">
-                        <td th:text="${transaction.id}"></td>
+                    <tr th:each="transaction : ${transactions}">
+                        <td th:text="${transaction.to_user_id}"></td>
                         <td th:text="${transaction.description}"></td>
                         <td th:text="${transaction.amount}"></td>
                     </tr>

@@ -1,5 +1,7 @@
-package com.openclassrooms.paymybuddy.controller;
+package com.openclassrooms.paymybuddy.controller.web;
 
+import com.openclassrooms.paymybuddy.controller.ErrorResponse;
+import com.openclassrooms.paymybuddy.controller.dto.TransactionDTO;
 import com.openclassrooms.paymybuddy.exception.LowBalanceException;
 import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.model.User;
@@ -9,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,21 +86,31 @@ public class WebController {
         String email = principal.getName();
         User user = userService.getUserByEmail(email).get();
         List<Transaction> transactions = transactionService.getTransactionsByUser(user);
-        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("transactions", transactions);
 
         List<User> friends = userService.getAllFriends(user);
         model.addAttribute("friends", friends);
 
-        model.addAttribute("user", new User());
+        model.addAttribute("transactionDTO", new TransactionDTO());
         return "transaction";
     }
 
     @PostMapping("/addTransaction")
-    public String addTransaction(@ModelAttribute Transaction transaction, User user, Principal principal) throws LowBalanceException {
-        User friend = userService.getUserByEmail(user.getEmail()).orElse(null);
+    public String addTransaction(@ModelAttribute("transactionDto")TransactionDTO transactionDTO, Principal principal) throws LowBalanceException {
         User connectedUser = userService.getUserByEmail(principal.getName()).get();
-        transactionService.makeTransaction(connectedUser, friend, transaction.getAmount(), transaction.getDescription());
-        return "transaction";
+        User friend = userService.getUserByEmail(transactionDTO.getEmailReceiver()).get();
+        try {
+            transactionService.makeTransaction(connectedUser, friend, transactionDTO.getAmount(), transactionDTO.getDescription());
+        } catch (LowBalanceException ex) {
+            throw ex;
+        }
+        return "templateApp";
+    }
+
+    @ExceptionHandler(LowBalanceException.class)
+    public String handleLowBalanceException(LowBalanceException ex, Model model){
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "errorPage";
     }
 
     @GetMapping("/templateApp.html")

@@ -10,28 +10,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
-
-//    @Bean
-//    public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
-//        http
-//                .csrf().disable()
-//                .authorizeHttpRequests()
-//                .requestMatchers("/index.html", "/login.html").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login.html")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .invalidateHttpSession(true)
-//                .clearAuthentication(true)
-//                .permitAll()
-//                .logoutSuccessUrl("/templateApp.html")
-//        ;
-//        return http.build();
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
