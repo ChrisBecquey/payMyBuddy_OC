@@ -24,7 +24,8 @@
         </div>
         <div class="card-body">
             <div class="d-flex flex-row justify-content-center align-items-center bg-light p-4">
-                <form class="mx-1 mx-md-4 d-flex flex-row align-items-center" action="#" th:action="@{/addTransaction}" th:object="${transactionDTO}"
+                <form class="mx-1 mx-md-4 d-flex flex-row align-items-center" action="#" th:action="@{/addTransaction}"
+                      th:object="${transactionDTO}"
                       method="post">
                     <div class="form-group me-3">
                         <select class="form-select" id="friendDropdown" aria-label="Select a connection"
@@ -35,7 +36,8 @@
                         </select>
                     </div>
                     <div class="form-group me-3">
-                        <input type="number" id="amount" name="amount" class="form-control" th:field="*{amount}" placeholder="0€"
+                        <input type="number" id="amount" name="amount" class="form-control" th:field="*{amount}"
+                               placeholder="0€"
                                required></input>
                     </div>
                     <div class="form-group me-3">
@@ -62,10 +64,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="transaction : ${transactions}">
+                    <tr th:each="transaction : ${transactionPage}">
                         <td th:text="${transaction.to_user_id.firstName}"></td>
                         <td th:text="${transaction.description}"></td>
                         <td th:text="${transaction.amount}"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <ul class="pagination">
+                                <li class="page-item" th:if="${transactionPage.totalPages > 0}"
+                                    th:each="pageNumber : ${pageNumbers}">
+                                    <a th:href="@{/addTransaction(size=${transactionPage.size}, page=${pageNumber})}"
+                                       th:text=${pageNumber}
+                                       th:class="${pageNumber==transactionPage.number + 1} ? active" th:classappend="page-link"></a>
+                                </li>
+                            </ul>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
