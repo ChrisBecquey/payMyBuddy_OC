@@ -7,9 +7,14 @@ import com.openclassrooms.paymybuddy.repository.TransactionRepository;
 import com.openclassrooms.paymybuddy.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -52,5 +57,25 @@ public class TransactionService {
         transaction.setTo_user_id(friend);
 
         transactionRepository.save(transaction);
+    }
+
+    public Page<Transaction> findPaginated(Pageable pageable, User user) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+
+        List<Transaction> transactionList = getTransactionsByUser(user);
+        List<Transaction> list;
+        if (transactionList.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, transactionList.size());
+            list = transactionList.subList(startItem, toIndex);
+        }
+
+        Page<Transaction> transactionPage
+                = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), transactionList.size());
+
+        return  transactionPage;
     }
 }

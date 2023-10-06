@@ -71,11 +71,6 @@
                         <table class="table project-list-table table-nowrap align-middle table-borderless">
                             <thead>
                             <tr>
-                                <th scope="col" class="ps-4" style="width: 50px;">
-                                    <div class="form-check font-size-16"><input type="checkbox" class="form-check-input"
-                                                                                id="contacusercheck"/><label
-                                            class="form-check-label" for="contacusercheck"></label></div>
-                                </th>
                                 <th scope="col">FirstName</th>
                                 <th scope="col">LastName</th>
                                 <th scope="col">Email</th>
@@ -83,11 +78,6 @@
                             </thead>
                             <tbody>
                             <tr th:each="friend : ${friends}">
-                                <th scope="row" class="ps-4">
-                                    <div class="form-check font-size-16"><input type="checkbox" class="form-check-input"
-                                                                                id="contacusercheck1"/><label
-                                            class="form-check-label" for="contacusercheck1"></label></div>
-                                </th>
                                 <td th:text="${friend.firstName}"></td>
                                 <td th:text="${friend.lastName}"></td>
                                 <td th:text="${friend.email}"></td>

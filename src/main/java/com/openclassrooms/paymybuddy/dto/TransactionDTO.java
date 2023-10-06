@@ -1,4 +1,4 @@
-package com.openclassrooms.paymybuddy.controller.dto;
+package com.openclassrooms.paymybuddy.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

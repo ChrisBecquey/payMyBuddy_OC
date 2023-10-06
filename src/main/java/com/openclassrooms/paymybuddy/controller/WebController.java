@@ -1,7 +1,6 @@
-package com.openclassrooms.paymybuddy.controller.web;
+package com.openclassrooms.paymybuddy.controller;
 
-import com.openclassrooms.paymybuddy.controller.ErrorResponse;
-import com.openclassrooms.paymybuddy.controller.dto.TransactionDTO;
+import com.openclassrooms.paymybuddy.dto.TransactionDTO;
 import com.openclassrooms.paymybuddy.exception.LowBalanceException;
 import com.openclassrooms.paymybuddy.model.Transaction;
 import com.openclassrooms.paymybuddy.model.User;
@@ -9,6 +8,8 @@ import com.openclassrooms.paymybuddy.service.TransactionService;
 import com.openclassrooms.paymybuddy.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -104,7 +105,7 @@ public class WebController {
         } catch (LowBalanceException ex) {
             throw ex;
         }
-        return "templateApp";
+        return "successTransaction";
     }
 
     @ExceptionHandler(LowBalanceException.class)
@@ -116,6 +117,11 @@ public class WebController {
     @GetMapping("/templateApp.html")
     public String template() {
         return "templateApp.html";
+    }
+
+    @GetMapping("/successTransaction")
+    public String successTransaction() {
+        return "successTransaction";
     }
 
     @GetMapping("/contactForm")

@@ -1,4 +1,4 @@
-package com.openclassrooms.paymybuddy.DTO;
+package com.openclassrooms.paymybuddy.dto;
 
 import com.openclassrooms.paymybuddy.model.User;
 import jakarta.persistence.GeneratedValue;
