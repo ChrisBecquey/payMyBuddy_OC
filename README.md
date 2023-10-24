@@ -7,7 +7,7 @@ The objective is therefore to create the prototype of a new java web application
 
 # Technical
 1. Spring Boot v3.0.6
-2. Java v17
+2. Java 17
 3. Thymeleaf
 4. Bootstrap v5.2.3
 5. Spring Data JPA

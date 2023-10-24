@@ -22,7 +22,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // connection avec un autre utilisateur
     public Iterable<User> getUsers() {
         return userRepository.findAll();
     }
