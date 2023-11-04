@@ -60,6 +60,7 @@ public class WebController {
     @PostMapping("/addUser")
     public String addUser(@ModelAttribute User user, Model model) {
         model.addAttribute("user", user);
+        user.setBalance(100.0);
         userService.saveUser(user);
         return "templateApp.html";
     }

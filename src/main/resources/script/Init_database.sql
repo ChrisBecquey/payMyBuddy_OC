@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
--- Host: localhost    Database: paymybuddy2
+-- Host: localhost    Database: paymybuddydemo
 -- ------------------------------------------------------
 -- Server version	8.0.30
 
@@ -94,7 +94,7 @@ CREATE TABLE `transaction` (
 
 LOCK TABLES `transaction` WRITE;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` VALUES (1,25,'Resto','2023-09-29',1,2),(2,1,'test','2023-10-06',1,2),(3,1,'test','2023-10-06',1,2),(4,1,'test','2023-10-06',1,2),(5,1,'test','2023-10-06',1,2),(6,1,'test','2023-10-06',1,2),(7,1,'test','2023-10-06',1,2);
+INSERT INTO `transaction` VALUES (1,50,'soirée','2023-11-04',1,2);
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,7 +116,7 @@ CREATE TABLE `transaction_seq` (
 
 LOCK TABLES `transaction_seq` WRITE;
 /*!40000 ALTER TABLE `transaction_seq` DISABLE KEYS */;
-INSERT INTO `transaction_seq` VALUES (101);
+INSERT INTO `transaction_seq` VALUES (51);
 /*!40000 ALTER TABLE `transaction_seq` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,7 +144,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,68.84500000000003,'jean.boyd@gmail.com','Jean','Boyd','password'),(2,81,'lise.autre@gmail.com','Lise','Autre','Password');
+INSERT INTO `user` VALUES (1,49.75,'marie.sophie@gmail.com','marie','sophie','password'),(2,150,'jean.boyd@gmail.com','jean','boyd','password'),(3,100,'henry.dupont@gmail.com','henry','dupont','password');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,7 +193,7 @@ CREATE TABLE `user_seq` (
 
 LOCK TABLES `user_seq` WRITE;
 /*!40000 ALTER TABLE `user_seq` DISABLE KEYS */;
-INSERT INTO `user_seq` VALUES (1);
+INSERT INTO `user_seq` VALUES (101);
 /*!40000 ALTER TABLE `user_seq` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -206,4 +206,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-23 21:43:39
+-- Dump completed on 2023-11-04 10:14:05
